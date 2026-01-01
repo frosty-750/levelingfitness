@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitQuest – Guild Card Fitness</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<header>
+  <h1>CHAMPION'S PATH</h1>
+  <button id="profileBtn" onclick="openProfile()">Profile</button>
+</header>
+
+<div class="container">
+
+  <div class="guild-card">
+    <div class="guild-top">
+      <div class="name">
+        <span id="playerName">Adventurer</span>
+        <button onclick="showCard()">Show Card</button>
+      </div>
+      <div class="rank" id="rank">Beginner</div>
+    </div>
+
+    <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+    <div class="xp-text" id="xpText">0 / 100 XP</div>
+    <div class="xp-text">🔥 Streak: <span id="streak">0</span> days</div>
+  </div>
+
+  <div class="section-title">DAILY QUESTS</div>
+  <div id="quests"></div>
+
+</div>
+
+<!-- CHARACTER CARD OVERLAY -->
+<div class="overlay" id="cardOverlay" onclick="closeOverlay()">
+  <div class="character-card" onclick="event.stopPropagation()">
+
+    <div class="char-left">
+      <div class="char-aura"></div>
+      <img id="cardAvatar" />
+    </div>
+
+    <div class="char-center">
+      <div class="char-info-main view-active">
+        <div class="char-rank-container">
+          <div class="char-rank-s"></div>
+          <div class="char-rank-text">RANK</div>
+        </div>
+        <h2 id="overlayName"></h2>
+        <p class="char-bio" id="overlayBio"></p>
+        <p class="char-goal" id="overlayGoal"></p>
+      </div>
+
+
+      <div class="char-info-status view-hidden">
+        <h3>STATUS</h3>
+        <ul>
+          <li><span>XP</span><span id="statXP3"></span></li>
+          <li><span>Level</span><span id="statLevel3"></span></li>
+          <li><span>Rank</span><span id="statRank3"></span></li>
+          <li><span>Points</span><span id="statPoints3"></span></li>
+          <li><span>Streak</span><span id="statStreak3"></span></li>
+        </ul>
+        <div class="system-divider"></div>
+
+        <div class="system-actions">
+          <p class="system-label">SYSTEM</p>
+          <button class="system-btn danger" onclick="openBenchmark()">
+           REASSESS BENCHMARK
+          </button>
+        </div>
+        <div class="next-rank" id="nextRankContainer">
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="char-right">
+      <h4><span onclick="setActive(this); toggleAboutView()">ABOUT</span></h4>
+      <ul>
+        <li><span onclick="setActive(this); showStatus()">STATUS</span></li>
+        <li><span onclick="setActive(this); showSkills()">SKILLS</span></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- BENCHMARK TEST MODAL -->
+<div class="overlay" id="benchmarkOverlay">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3>Benchmark Test</h3>
+    <p>Enter your max reps in one go:</p>
+
+    <div class="edit-field">
+      <label>Pushups</label>
+     <input type="number" id="benchPushups" placeholder="eg.10" />
+    </div>
+
+    <div class="edit-field">
+      <label>Squats</label>
+      <input type="number" id="benchSquats" placeholder="eg.10" />
+    </div>
+
+    <div class="edit-field">
+      <label>Pull-ups</label>
+     <input type="number" id="benchPullups" placeholder="eg.10" />
+    </div>
+    
+    <div class="edit-field">
+      <label>Sit-ups</label>
+     <input type="number" id="benchSitups" placeholder="eg.10" />
+    </div>
+
+    <button onclick="submitBenchmark()">Submit</button>
+  </div>
+</div>
+
+
+<!-- PROFILE MODAL -->
+<div class="overlay" id="profileOverlay" onclick="closeProfile()">
+  <div class="modal profile-modal" onclick="event.stopPropagation()">
+
+    <h3>Edit Profile</h3>
+
+    <div class="edit-field">
+      <label>NAME</label>
+      <input type="text" id="profileName" placeholder="Enter name" />
+    </div>
+
+    <div class="edit-field">
+      <label>BIO</label>
+      <textarea id="profileBio" rows="4"
+        placeholder="Who are you?"></textarea>
+    </div>
+
+    <div class="edit-field">
+      <label>GOAL</label>
+      <textarea id="profileGoal" rows="3"
+        placeholder="Your objective"></textarea>
+    </div>
+
+    <button onclick="saveProfile()">Save</button>
+
+  </div>
+</div>
+
+
+<footer>This web is made to track your progress and make your life better.</footer>
+
+<!-- JS -->
+<script src="script.js"></script>
+</body>
+</html>
