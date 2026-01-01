@@ -2,6 +2,7 @@
 // CONSTANTS & INITIAL STATE
 // ==========================
 const profileOverlay = document.getElementById('profileOverlay');
+const profileModal = document.querySelector('.profile-modal');
 const cardOverlay = document.getElementById('cardOverlay');
 const playerName = document.getElementById('playerName');
 const rank = document.getElementById('rank');
@@ -17,6 +18,9 @@ const cardAvatar = document.getElementById('cardAvatar');
 const nameInput = document.getElementById('nameInput');
 const bioInput = document.getElementById('bioInput');
 const goalInput = document.getElementById('goalInput');
+const avatarInput = document.getElementById('avatarInput');
+const avatarPreview = document.getElementById('avatarPreview'); // optional, for showing the selected image
+avatarInput.addEventListener('change', loadAvatar);
 
 const RANK_BENCHMARKS = [
   { pushups: 10, squats: 20, pullups: 1, situps: 10 },      // Beginner
@@ -190,28 +194,6 @@ function complete(id, xp) {
   render();
 }
 
-// ==========================
-// WORKOUT LOG FUNCTION
-// ==========================
-function logWorkout() {
-  const t = workoutType.value, c = Number(workoutCount.value || 0);
-  if (!c) return;
-
-  // Reset daily quests if new day
-  const todayStr = new Date().toDateString();
-  if (state.lastWorkoutDate !== todayStr) {
-    state.quests = {};
-    QUEST_POOL.forEach(q => state.quests[q.id] = false);
-    state.lastWorkoutDate = todayStr;
-  }
-
-  const oldProgression = getProgressionDetails();
-  const xpGained = c * XP_GAINS[t].xp;
-  const pointsGained = c * XP_GAINS[t].points;
-
-  state.xp += xpGained;
-  state.points += pointsGained;
-
   // Streak logic
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -230,7 +212,6 @@ function logWorkout() {
   if (newProgression.rankIndex > oldProgression.rankIndex) showRankUp('RANK UP!');
   showXPGain(xpGained);
   render();
-}
 
 // ==========================
 // CHARACTER CARD OVERLAY FUNCTIONS
@@ -301,15 +282,26 @@ function saveProfile() {
   state.name = nameInput.value || state.name;
   state.bio = bioInput.value;
   state.goal = goalInput.value;
-  closeOverlay();
+  localStorage.setItem('fitquest_final', JSON.stringify(state));
+  closeProfile();   // closes just the profile overlay
   render();
 }
 
+
 function loadAvatar(e) {
-  const r = new FileReader();
-  r.onload = () => { state.avatar = r.result; render(); };
-  r.readAsDataURL(e.target.files[0]);
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = () => { 
+    state.avatar = reader.result; 
+    render(); 
+    // show preview in modal
+    avatarPreview.innerHTML = `<img src="${state.avatar}" style="width:100px; height:100px; border-radius:50%;" />`;
+  };
+  reader.readAsDataURL(file);
 }
+
 
 // ==========================
 // OTHER UI FUNCTIONS

@@ -131,23 +131,24 @@
 
     <div class="edit-field">
       <label>NAME</label>
-      <input type="text" id="profileName" placeholder="Enter name" />
+      <input type="text" id="nameInput" placeholder="Enter name" />
     </div>
 
     <div class="edit-field">
       <label>BIO</label>
-      <textarea id="profileBio" rows="4"
+      <textarea id="bioInput" rows="4"
         placeholder="Who are you?"></textarea>
     </div>
 
     <div class="edit-field">
       <label>GOAL</label>
-      <textarea id="profileGoal" rows="3"
+      <textarea id="goalInput" rows="3"
         placeholder="Your objective"></textarea>
     </div>
-
+      <label>Profile picture</label>
+        <input id="avatarInput" type="file" accept="image/*" />
     <button onclick="saveProfile()">Save</button>
-
+    <div id="avatarPreview"></div>
   </div>
 </div>
 
